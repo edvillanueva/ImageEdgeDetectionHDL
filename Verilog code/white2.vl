@@ -1,0 +1,48 @@
+// module declaration
+
+module file_readmemh#( parameter WIDTH = 208, HEIGHT = 175)( input clk, output reg out);
+
+
+
+ //image size 208 x175
+reg [WIDTH:0] data [0:HEIGHT];
+//read the binary image file
+initial $readmemb("binaryfile-01.txt", data);
+
+
+integer i, count,max;
+/* read and display the values from the text file on the compiler screen */ 
+
+initial begin
+	count = 0;
+	max = 0;
+        $display("Image Data:");
+
+        for (i=0; i < HEIGHT; i=i+1)
+	begin
+	if (data[i] == 0)
+		begin
+		$display("Empty");
+		count = 0;
+		end
+	else if(data[i] != 0)
+		begin
+		count = count +1;
+		$display("White");
+		$display("%b",data[i]);
+		end
+	if (max < count)
+		begin
+		max = count; //height of the white stripe
+		$display("%d",max);
+		end
+
+	end
+	$display("The approximate length of the line is %d inches",max);
+       // $display("%d:%b",i,data[i]);
+ 
+end     
+
+endmodule 
+
+ 
